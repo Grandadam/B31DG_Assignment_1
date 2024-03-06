@@ -4,6 +4,13 @@
 #include <stdbool.h>
 #include <driver/gpio.h>
 
+//#define DEBUG_Timing
+#ifdef DEBUG_Timing
+#define Timing = 1000
+#ifndef DEBUG_Timing
+#define Timing = 1
+#endif
+
  uint16_t a = 300;  // Width of first pulse
  uint16_t b = 100;  // With between pulses
  uint16_t c = 13;  // Number of pulses in block d
