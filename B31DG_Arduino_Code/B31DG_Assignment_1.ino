@@ -1,13 +1,20 @@
 #include <stdint.h>
 #include <stdio.h>
- 
- uint16_t a = 300;  // Width of first pulse
- uint16_t b = 100;  // With between pulses
- uint16_t c = 13;  // Number of pulses in block 
- uint16_t d = 6500;  // Delay between waveforms
+
+//#define DEBUG_Timing
+#ifdef DEBUG_Timing
+#define Timing = 1000
+#ifndef DEBUG_Timing
+#define Timing = 1
+#endif
+
+ uint16_t a = (300 * Timing);  // Width of first pulse
+ uint16_t b = (100 * Timing);  // With between pulses
+ uint16_t c = (13 * Timing);  // Number of pulses in block 
+ uint16_t d = (6500 * Timing);  // Delay between waveforms
  uint16_t e = 0; // Minimum pulse width
- uint16_t inve = 650; // Maximum pulse width
- uint16_t B_Pause = 500; // 500 microseconds for signal B delay
+ uint16_t inve = (650 * Timing); // Maximum pulse width
+
  
 void setup()
 {
@@ -34,7 +41,7 @@ void loop()
   {
      SignalB(); 
      InvSignalA();
-  };
+   };
 }
 
 void SignalA()  // Pulse width size incrementing up but 5 micro seconds
@@ -42,9 +49,9 @@ void SignalA()  // Pulse width size incrementing up but 5 micro seconds
   for(int i = 0; i < 13; i++) 
    {
     digitalWrite(25,HIGH);
-    delay(a+e); 
+    delayMicroseconds(a+e); 
     digitalWrite(25,LOW); 
-    delay(b);
+    delayMicroseconds(b);
     e = e + 50; // Increaes pulse width size
    }
    delay(d);
@@ -56,18 +63,18 @@ void SignalA()  // Pulse width size incrementing up but 5 micro seconds
   for(int i = 0; i < 13; i++) 
    {
     digitalWrite(25,HIGH);
-    delay(a+inve);
+    delayMicroseconds(a+inve);
     digitalWrite(25,LOW); 
-    delay(b);
+    delayMicroseconds(b);
     inve = inve - 50;
    }
-   delay(d);
+   delayMicroseconds(d);
    inve = 650;
   }
   
   void SignalB()
   {
-    digitalWrite(26,HIGH);     // Signal B
-    delay(B_Pause);  // Signal B
-    digitalWrite(26,LOW);      // Signal B    
+    digitalWrite(26,HIGH); // Signal B
+    delayMicroseconds(500);            // Signal B
+    digitalWrite(26,LOW);  // Signal B    
   }
